@@ -12,13 +12,17 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class MyAdapter(private val db: MyDatabase) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+class MyAdapter() : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
     companion object {
         const val TAG = "MyAdapter"
     }
 
-    private var list: MutableList<MyDeal> = db.getAll().toMutableList()
+    private var list: MutableList<MyDeal> = MyApp.db.myDao().getAll().toMutableList()
+
+    fun getData() {
+
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var textView: TextView
@@ -60,7 +64,7 @@ class MyAdapter(private val db: MyDatabase) : RecyclerView.Adapter<MyAdapter.Vie
     }
 
     fun toggle(id: Long) {
-        db.toggle(id)
+        MyApp.db.myDao().toggle(id)
         val position = list.indexOfFirst { it.id == id }
         list = list.map {
             if (it.id == id) {
@@ -79,13 +83,14 @@ class MyAdapter(private val db: MyDatabase) : RecyclerView.Adapter<MyAdapter.Vie
     }
 
     fun add(title: String) {
-        val id = db.add(title)
-        list.add(0, MyDeal(id, title))
+        val id = MyApp.db.myDao().add(title)
+        list = MyApp.db.myDao().getAll().toMutableList()
+//        list.add(0, MyDeal(id, title))
         notifyItemInserted(0)
     }
 
     fun delete(id: Long) {
-        db.delete(id)
+        MyApp.db.myDao().delete(id)
         val position = list.indexOfFirst { it.id == id }
         list = list.filter { it.id != id }.toMutableList()
         notifyItemRemoved(position)

@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val db = MyDatabase(this)
+//        val db = MyDatabase(this)
 
 //        for (i in 0..100) {
 //            db.add("Task #$i")
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = MyAdapter(db)
+        val adapter = MyAdapter()
         recyclerView.adapter = adapter
 
         val editText = findViewById<EditText>(R.id.titleEditText)
